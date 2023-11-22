@@ -1,0 +1,11 @@
+{% extends 'tienda/base.html' %}
+
+{% block content %}
+    <h3>Productos más comprados</h3>
+    <ul>
+        {% for product in top_productos %}
+            <li>{{ product.nombre }} - Comprado {{ product.purchase_count }} veces</li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

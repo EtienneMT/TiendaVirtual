@@ -1,0 +1,29 @@
+{% extends 'tienda/base.html' %}
+
+{% block content %}
+    <div class="container text-center">
+        <br>
+        <h2>Bienvenido a la tienda virtual</h2>
+
+        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+            {{ form.texto }}
+            {{ form.marca }}
+            <button type="submit">Buscar</button>
+        </form>
+        <div class="productos">
+            {% for producto in productos %}
+                <div class="card producto">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ producto.nombre }}</h5>
+                        <p class="card-text">
+                            Quedan: {{ producto.unidades }} <br>
+                            Precio: {{ producto.precio }}€ <br>
+                        </p>
+                        <a href="{% url 'confimar_compra' pk=producto.pk %}" class="btn btn-primary">Compra</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+{% endblock %}

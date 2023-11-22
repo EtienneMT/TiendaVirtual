@@ -1,0 +1,38 @@
+{% extends 'tienda/base.html' %}
+
+{% block content %}
+    <h3>Esto es el apartado de administracion de productos</h3>
+    <table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Marca</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Modelo</th>
+      <th scope="col">Unidades</th>
+      <th scope="col">Precio</th>
+      <th scope="col">VIP</th>
+      <th scope="col">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for producto in productos %}
+    <tr>
+      <th scope="row">{{ producto.pk }}</th>
+      <td>{{ producto.marca }}</td>
+      <td>{{ producto.nombre }}</td>
+      <td>{{ producto.modelo }}</td>
+      <td>{{ producto.unidades }}</td>
+      <td>{{ producto.precio }}</td>
+      <td>{{ producto.vip }}</td>
+        <td>
+
+            <a href="{% url 'producto_editar' producto.pk %}" class="btn btn-primary">editar</a>
+            <a href="{% url 'producto_eliminar' producto.pk %}" class="btn btn-danger">eliminar</a>
+        </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+    <a href="{% url 'producto_nuevo' %}" class="btn btn-primary">Nuevo producto</a>
+{% endblock %}
