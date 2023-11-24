@@ -1,4 +1,5 @@
 from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from django.db import transaction
@@ -11,20 +12,19 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def welcome(request):
-    productos = Producto.objects.all()
+    productos_filtrados = Producto.objects.all()
     form = FormBuscarProducto(request.GET)
 
     if form.is_valid():
         texto_busqueda = form.cleaned_data['texto']
         marcas_seleccionadas = form.cleaned_data['marca']
-        if len(marcas_seleccionadas) != 0:
-            productos_filtrados = productos.filter(marca_id__in=marcas_seleccionadas)
-        else:
-            productos_filtrados = productos
-        productos_filtrados = productos_filtrados.filter(nombre__contains=texto_busqueda)
-        return render(request, 'tienda/index.html', {'productos': productos_filtrados, 'form': form})
 
-    return render(request, 'tienda/index.html', {'productos': productos, 'form': form})
+        productos_filtrados = productos_filtrados.filter(nombre__contains=texto_busqueda)
+
+        if len(marcas_seleccionadas) != 0:
+            productos_filtrados = productos_filtrados.filter(marca_id__in=marcas_seleccionadas)
+
+    return render(request, 'tienda/index.html', {'productos': productos_filtrados, 'form': form})
 
 
 @login_required(login_url='/tienda/login/')
@@ -121,15 +121,26 @@ def sing_in(request):
 
 
 def log_in(request):
+    form = FormLogIn()
+    template = 'tienda/login.html'
+    return_render = render(request, template, {'form': form})
     if request.method == 'POST':
-        username = request.POST["username"]
-        password = request.POST["password"]
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect('welcome')
-    form = FormLogIn(request.POST)
-    return render(request, 'tienda/login.html', {'form': form})
+        form = FormLogIn(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            next_ruta = request.GET.get('next')
+            if next_ruta is None:
+                next_ruta = '/tienda'
+            user = authenticate(request, username=username, password=password)
+
+            if user is not None:
+                login(request, user)
+                return_render = redirect(next_ruta)
+            else:
+                messages.info(request, 'usuario no existe')
+
+    return return_render
 
 
 def log_out(request):

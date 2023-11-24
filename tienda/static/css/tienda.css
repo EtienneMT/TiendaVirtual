@@ -1,4 +1,10 @@
+.principal {
+    max-width: 90%;
+    display: flex;
+}
+
 .productos {
+    width: 350%;
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap;
@@ -13,7 +19,7 @@
 #id_texto {
     margin: 0 auto;
     display: block;
-    width: 50%;
+    width: 100%;
     padding: .375rem .75rem;
     font-size: 1rem;
     font-weight: 400;
@@ -30,11 +36,15 @@
 
 #id_marca {
     display: flex;
+    flex-wrap: wrap;
+    margin: auto;
 }
 
 #id_marca div{
+    display: flex;
     margin: 10px 0;
-    width: 200px;
+    width: 100px;
+    padding-left: 30%;
 }
 
 .text-end{
@@ -44,4 +54,22 @@
 
 .text-end p{
     margin: 0 10px 0 0;
+}
+
+.formulario>*{
+    margin: 10px auto;
+}
+
+@media (max-width: 980px) {
+    .principal{
+        flex-direction: column;
+    }
+
+    .productos {
+        width: auto;
+    }
+
+    #id_marca div {
+        padding-left: 0;
+    }
 }

@@ -6,8 +6,12 @@
     <title>Tienda virtual</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <!-- Enlaces a Bootstrap CSS y JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
     <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="{% static 'css/tienda.css' %}">
+
 </head>
 <body>
 
@@ -15,18 +19,31 @@
     <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <h1>
-                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                <a href="{% url 'welcome' %}"
+                   class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
                     Tienda Virtual
                 </a>
             </h1>
 
-            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 nav-pills">
                 {% if user.is_staff %}
-                <li><a href="{% url 'producto_admin' %}" class="nav-link px-2 text-white">Gestion de productos</a></li>
-                <li><a href="{% url 'informe_marca' %}" class="nav-link px-2 text-white">Marcas</a></li>
-                <li><a href="{% url 'top_clientes' %}" class="nav-link px-2 text-white">Top Clientes</a></li>
-                <li><a href="{% url 'top_productos' %}" class="nav-link px-2 text-white">Top Productos</a></li>
-                <li><a href="{% url 'historial' %}" class="nav-link px-2 text-white">Compras</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link " aria-current="page" href="{% url 'producto_admin' %}">Administrar
+                            Productos</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                           aria-expanded="false">Informes</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{% url 'informe_marca' %}">Marcas</a></li>
+                            <li><a class="dropdown-item" href="{% url 'top_clientes' %}">Top Clientes</a></li>
+                            <li><a class="dropdown-item" href="{% url 'top_productos' %}">Top Productos</a></li>
+                        </ul>
+                    </li>
+                {% elif user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'historial' %}">Tus Compras</a>
+                </li>
                 {% endif %}
             </ul>
             <div class="text-end">
@@ -55,15 +72,18 @@
 <div class="container">
     <footer class="py-3 my-4">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
+            <li class="nav-item"><a href="{% url 'welcome' %}" class="nav-link px-2 text-body-secondary">Home</a></li>
+            <li class="nav-item"><a href="{% url 'welcome' %}" class="nav-link px-2 text-body-secondary">Features</a>
+            </li>
+            <li class="nav-item"><a href="{% url 'welcome' %}" class="nav-link px-2 text-body-secondary">Pricing</a>
+            </li>
+            <li class="nav-item"><a href="{% url 'welcome' %}" class="nav-link px-2 text-body-secondary">FAQs</a></li>
+            <li class="nav-item"><a href="{% url 'welcome' %}" class="nav-link px-2 text-body-secondary">About</a></li>
         </ul>
         <p class="text-center text-body-secondary">&copy; 2023 Company, Inc</p>
     </footer>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 </body>
 </html>

@@ -31,7 +31,8 @@ class FormCompra(forms.ModelForm):
 
 class FormBuscarProducto(forms.Form):
     texto = forms.CharField(required=False, widget=forms.TextInput({"placeholder": "Search ..."}))
-    marca = forms.ModelMultipleChoiceField(required=False, queryset=Marca.objects.all(), widget=forms.CheckboxSelectMultiple)
+    marca = forms.ModelMultipleChoiceField(required=False, queryset=Marca.objects.all(),
+                                           widget=forms.CheckboxSelectMultiple)
 
 
 class FormSingIn(UserCreationForm):
@@ -41,8 +42,7 @@ class FormSingIn(UserCreationForm):
         fields = ['username', 'email', 'password1', 'password2']
 
 
-class FormLogIn(AuthenticationForm):
-
-    class Meta:
-        model = User
-        fields = ['username', 'password']
+class FormLogIn(forms.Form):
+    username = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput)
+    next = forms.CharField(widget=forms.HiddenInput, initial="/")
